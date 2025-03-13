@@ -40,16 +40,11 @@ class Restaurante {
     }
 
     public void procesarPedidos() {
-        int countLocalAccess = 0;
-        int countForeignAccess = 0;
-
         for (Pedido pedido : pedidos) {
-            countLocalAccess++; // Acceso a atributo de la misma clase
             if (!pedido.entregado) {
                 System.out.println("Procesando pedido de " + pedido.nombre + " en mesa " + pedido.mesa);
                 for (String item : pedido.items) {
                     System.out.println("  Preparando: " + item);
-                    countLocalAccess++; // Acceso local a items
                     if (item.equals("Pizza")) {
                         System.out.println("    Horneando pizza...");
                         for (int i = 0; i < 3; i++) {
@@ -59,18 +54,13 @@ class Restaurante {
                         System.out.println("    Cortando ingredientes...");
                         for (String ingrediente : Arrays.asList("Lechuga", "Tomate", "Zanahoria")) {
                             System.out.println("      Agregando " + ingrediente);
-                            countForeignAccess++; // Acceso a lista externa
                         }
                     }
                 }
                 pedido.entregado = true;
-                countLocalAccess++; // Modificación de atributo local
                 System.out.println("Pedido de " + pedido.nombre + " entregado.");
             }
         }
-        
-        double LAA = (double) countLocalAccess / (countLocalAccess + countForeignAccess);
-        System.out.println("Locality of Attribute Access (LAA): " + LAA);
     }
 
     public static void main(String[] args) {
